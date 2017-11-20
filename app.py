@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
+import os
 
 
 
@@ -65,4 +66,5 @@ def layer_search():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
