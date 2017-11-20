@@ -6,6 +6,7 @@ name = "pypi"
 
 
 [requires]
+
 python_version = "3.6"
 
 
@@ -16,6 +17,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 "psycopg2" = "*"
 gunicorn = "*"
+flask-heroku = "*"
 
 
 [dev-packages]

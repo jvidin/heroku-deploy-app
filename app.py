@@ -3,13 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 import os
 
-
-
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost:5432/radar'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
+DATABASE_DEFAULT = 'postgresql://postgres:password@localhost:5432/radar'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', DATABASE_DEFAULT)
 
+
+db = SQLAlchemy(app)
 
 class Radar(db.Model):
     __tablename__ = 'radar'
@@ -34,8 +33,8 @@ def hello_world():
 def flight_search():
     flight = request.args.get('flight')
     if flight is None or len(flight) != 0:
-            query = Radar.query.filter_by(flight=func.upper(flight))
-            return render_template('flight.html', query=query, header=header)
+        query = Radar.query.filter_by(flight=func.upper(flight))
+        return render_template('flight.html', query=query, header=header)
     else:
         return render_template('flight.html', header=header)
 
@@ -68,4 +67,4 @@ def layer_search():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=False, host='localhost', port=port)
